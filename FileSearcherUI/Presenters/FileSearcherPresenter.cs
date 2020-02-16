@@ -1,4 +1,6 @@
-﻿using FileSearcherUI.Views;
+﻿using FileSearcherUI.Models;
+using FileSearcherUI.Utility;
+using FileSearcherUI.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +12,21 @@ namespace FileSearcherUI.Presenters
     public class FileSearcherPresenter:IPresenter
     {
         private readonly IFileSearcherView view;
+        private readonly IConfigurationSaver configurationSaver;
 
-
-        public FileSearcherPresenter(IFileSearcherView view)
+        public FileSearcherPresenter(IFileSearcherView view,IConfigurationSaver configurationSaver)
         {
             this.view = view;
+            this.configurationSaver = configurationSaver;
             view.Start += () => Start(view.DirectoryPath, view.FileNamePattern, view.AllowedSymbols);
             view.Pause += () => Pause();
+            ConfigurationModel savedConfig = configurationSaver?.Load();
+            if (savedConfig != null)
+            {
+                view.AllowedSymbols = savedConfig.AllowedCharacters;
+                view.DirectoryPath = savedConfig.DirectoryPath;
+                view.FileNamePattern = savedConfig.FileNamePattern;
+            }
         }
 
         public void Run()
@@ -26,7 +36,7 @@ namespace FileSearcherUI.Presenters
 
         private void Start(string directoryPath,string fileNamePattern,string allowedCharacters)
         {
-            throw new NotImplementedException();
+            configurationSaver.Save(new ConfigurationModel(directoryPath, fileNamePattern, allowedCharacters));
         }
 
         private void Pause()

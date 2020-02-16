@@ -46,7 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ConfigurationModel.cs" />
     <Compile Include="Utility\ConfigurationSaver.cs" />
+    <Compile Include="Utility\IConfigurationSaver.cs" />
     <Compile Include="Views\FileSearcherForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,8 +86,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

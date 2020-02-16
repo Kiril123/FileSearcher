@@ -1,4 +1,5 @@
 ﻿using FileSearcherUI.Presenters;
+using FileSearcherUI.Utility;
 using FileSearcherUI.Views;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace FileSearcherUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            var presenter = new FileSearcherPresenter(new FileSearcherForm());
+            var presenter = new FileSearcherPresenter(new FileSearcherForm(),new ConfigurationSaver());
             presenter.Run();
         }
     }
