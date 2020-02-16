@@ -14,6 +14,7 @@ namespace FileSearcherUI.Presenters
         private readonly IFileSearcherView view;
         private IConfigurationSaver configurationSaver;
         private IFileSearcherModel fileSearcher;
+        private int counter;
 
         public FileSearcherPresenter(IFileSearcherView view,IConfigurationSaver configurationSaver,IFileSearcherModel fileSearcher)
         {
@@ -36,12 +37,34 @@ namespace FileSearcherUI.Presenters
             view.Show();
         }
 
-        private void Start(string directoryPath,string fileNamePattern,string allowedCharacters)
+        private async void Start(string directoryPath,string fileNamePattern,string allowedCharacters)
         {
+            counter = 0;
+            view.FilesProccessed = counter.ToString();
             configurationSaver.Save(new ConfigurationModel(directoryPath, fileNamePattern, allowedCharacters));
             fileSearcher.AllowedCharacters = new List<char>(allowedCharacters.ToCharArray());
             fileSearcher.NamePattern = fileNamePattern;
-            fileSearcher.Search(directoryPath);
+            Progress<FileSearchProgressModel> searchProgress = new Progress<FileSearchProgressModel>();
+            searchProgress.ProgressChanged += ReportSearchProgress;
+            await Task.Run(()=>fileSearcher.Search(directoryPath,searchProgress));
+            view.CurrentFile = "None";
+        }
+
+        private void ReportSearchProgress(object sender,FileSearchProgressModel progress)
+        {
+            if (!progress.IsFinished)
+            {
+                view.CurrentFile = progress.CurrentFile;
+            }
+            else
+            {
+                counter++;
+                view.FilesProccessed = counter.ToString();
+                if (progress.IsValid)
+                {
+                    //Add to view tree.
+                }
+            }
         }
 
         private void Pause()

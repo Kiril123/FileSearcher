@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FileSearcherUI.Models
@@ -78,7 +79,7 @@ namespace FileSearcherUI.Models
         /// Searches given directory for all valid files.
         /// </summary>
         /// <param name="root">Directory root.</param>
-        public void Search(string root)
+        public void Search(string root,IProgress<FileSearchProgressModel> progress)
         {
             if (!Directory.Exists(root))
             {
@@ -104,10 +105,14 @@ namespace FileSearcherUI.Models
                 {
                     continue;
                 }
+
                 foreach (string file in files)
                 {
-                    isValid(file);
-                    //TO DO if is valid update ui.
+                    //Thread.Sleep(1000);
+                    progress.Report(new FileSearchProgressModel(file,false,false));
+                    progress.Report(new FileSearchProgressModel(file, true, isValid(file)));
+                    //Thread.Sleep(1000);
+
                 }
                 foreach (string subDirectory in subDirectories)
                 {

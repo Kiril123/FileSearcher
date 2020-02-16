@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FileSearcherUI.Models
 {
@@ -19,6 +20,6 @@ namespace FileSearcherUI.Models
         /// Searches given directory for all valid files.
         /// </summary>
         /// <param name="root">Directory root.</param>
-        void Search(string root);
+        void Search(string root, IProgress<FileSearchProgressModel> progress);
     }
 }
