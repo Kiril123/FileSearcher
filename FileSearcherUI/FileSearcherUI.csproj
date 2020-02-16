@@ -47,6 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ConfigurationModel.cs" />
+    <Compile Include="Models\FileContentValidator.cs" />
+    <Compile Include="Models\FileNameValidator.cs" />
+    <Compile Include="Models\FileSearcherModel.cs" />
+    <Compile Include="Models\IFileContentValidator.cs" />
+    <Compile Include="Models\IFileNameValidator.cs" />
     <Compile Include="Utility\ConfigurationSaver.cs" />
     <Compile Include="Utility\IConfigurationSaver.cs" />
     <Compile Include="Views\FileSearcherForm.cs">
