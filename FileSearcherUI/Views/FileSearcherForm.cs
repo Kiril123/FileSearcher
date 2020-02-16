@@ -12,6 +12,9 @@ namespace FileSearcherUI.Views
 {
     public partial class FileSearcherForm : Form,IFileSearcherView
     {
+
+        public event Action Start;
+        public event Action Pause;
         public FileSearcherForm()
         {
             InitializeComponent();
@@ -31,7 +34,6 @@ namespace FileSearcherUI.Views
                 directoryTextbox.Text = value;
             }
         }
-
         public string FileNamePattern
         {
             get{
@@ -41,7 +43,6 @@ namespace FileSearcherUI.Views
                 fileNamePatternTextBox.Text = value;
             }
         }
-
         public string AllowedSymbols
         {
             get{
@@ -50,6 +51,41 @@ namespace FileSearcherUI.Views
             set{
                 allowedSymbolsTextBox.Text = value;
             }
+        }
+        
+        public string SecondsPassed {
+            get {
+                return secondsPassedValueLabel.Text;
+            }
+            set {
+                secondsPassedLabel.Text = value;
+            }
+        }
+        public string CurrentFile {
+            get {
+                return currentFileValueLabel.Text;
+            }
+            set {
+                currentFileValueLabel.Text = value;
+            }
+        }
+        public string FilesProccessed {
+            get {
+                return totalFilesValueLabel.Text;
+            }
+            set {
+                totalFilesValueLabel.Text = value;
+            }
+        }
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            Start();
+        }
+
+        private void pauseButton_Click(object sender, EventArgs e)
+        {
+            Pause();
         }
     }
 }
