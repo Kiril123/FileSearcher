@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FileSearcherUI.Views
 {
@@ -14,6 +15,8 @@ namespace FileSearcherUI.Views
         string SecondsPassed { get; set; }
         string CurrentFile { get; set; }
         string FilesProccessed { get; set; }
+        TreeView SearchResultsTreeView { get; }
+
         event Action Start;
         event Action Pause;
 

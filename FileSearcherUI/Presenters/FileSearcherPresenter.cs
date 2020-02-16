@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FileSearcherUI.Presenters
 {
     public class FileSearcherPresenter:IPresenter
     {
         private readonly IFileSearcherView view;
+        private static readonly char pathSeparator='\\';
         private IConfigurationSaver configurationSaver;
         private IFileSearcherModel fileSearcher;
         private int counter;
@@ -35,6 +37,32 @@ namespace FileSearcherUI.Presenters
         public void Run()
         {
             view.Show();
+        }
+
+        private void updateTreeView(string path)
+        {
+            TreeNode lastNode = null;
+            string subPathAggregation = "";
+            foreach(string subPath in path.Split(pathSeparator))
+            {
+                subPathAggregation += subPath + pathSeparator;
+                TreeNode[] nodes = view.SearchResultsTreeView.Nodes.Find(subPathAggregation, true);
+                if (nodes.Length == 0)
+                {
+                    if (lastNode == null)
+                    {
+                        lastNode = view.SearchResultsTreeView.Nodes.Add(subPathAggregation, subPath);
+                    }
+                    else
+                    {
+                        lastNode = lastNode.Nodes.Add(subPathAggregation, subPath);
+                    }
+                }
+                else
+                {
+                    lastNode = nodes[0];
+                }
+            }
         }
 
         private async void Start(string directoryPath,string fileNamePattern,string allowedCharacters)
@@ -62,7 +90,7 @@ namespace FileSearcherUI.Presenters
                 view.FilesProccessed = counter.ToString();
                 if (progress.IsValid)
                 {
-                    //Add to view tree.
+                    updateTreeView(progress.CurrentFile);
                 }
             }
         }

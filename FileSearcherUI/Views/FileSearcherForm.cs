@@ -77,6 +77,12 @@ namespace FileSearcherUI.Views
                 totalFilesValueLabel.Text = value;
             }
         }
+        public TreeView SearchResultsTreeView
+        {
+            get{
+                return searchResultsTreeView;
+            }
+        }
 
         private void startButton_Click(object sender, EventArgs e)
         {

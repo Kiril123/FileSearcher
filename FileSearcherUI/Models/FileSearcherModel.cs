@@ -60,18 +60,14 @@ namespace FileSearcherUI.Models
         /// <returns>True if the file is valid, else false.</returns>
         private bool isValid(string filePath)
         {
-            // TO DO Update proccessed file field.
             if (!nameValidator.Validate(filePath))
             {
-                //To DO Increase proccessed count
                 return false;
             }
             if (!contentValidator.Validate(filePath))
             {
-                //TO DO Increase proccessed count
                 return false;
             }
-            //TO DO Increase proccessed count
             return true;
         }
 
@@ -108,10 +104,10 @@ namespace FileSearcherUI.Models
 
                 foreach (string file in files)
                 {
-                    //Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     progress.Report(new FileSearchProgressModel(file,false,false));
                     progress.Report(new FileSearchProgressModel(file, true, isValid(file)));
-                    //Thread.Sleep(1000);
+                    Thread.Sleep(1000);
 
                 }
                 foreach (string subDirectory in subDirectories)

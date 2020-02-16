@@ -36,21 +36,23 @@
             this.fileNamePatternTextBox = new System.Windows.Forms.TextBox();
             this.searchResultsTreeView = new System.Windows.Forms.TreeView();
             this.metaResultPanel = new System.Windows.Forms.Panel();
-            this.secondsPassedLabel = new System.Windows.Forms.Label();
-            this.currentFileLabel = new System.Windows.Forms.Label();
-            this.totalFilesLabel = new System.Windows.Forms.Label();
-            this.totalFilesValueLabel = new System.Windows.Forms.Label();
-            this.secondsPassedValueLabel = new System.Windows.Forms.Label();
             this.currentFileValueLabel = new System.Windows.Forms.Label();
+            this.secondsPassedValueLabel = new System.Windows.Forms.Label();
+            this.totalFilesValueLabel = new System.Windows.Forms.Label();
+            this.totalFilesLabel = new System.Windows.Forms.Label();
+            this.currentFileLabel = new System.Windows.Forms.Label();
+            this.secondsPassedLabel = new System.Windows.Forms.Label();
             this.setupGroupBox = new System.Windows.Forms.GroupBox();
             this.resultsGroupBox = new System.Windows.Forms.GroupBox();
             this.controlsPanel = new System.Windows.Forms.Panel();
-            this.startButton = new System.Windows.Forms.Button();
             this.pauseButton = new System.Windows.Forms.Button();
+            this.startButton = new System.Windows.Forms.Button();
+            this.treeResultPanel = new System.Windows.Forms.Panel();
             this.metaResultPanel.SuspendLayout();
             this.setupGroupBox.SuspendLayout();
             this.resultsGroupBox.SuspendLayout();
             this.controlsPanel.SuspendLayout();
+            this.treeResultPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // directoryPathLabel
@@ -109,9 +111,9 @@
             // 
             // searchResultsTreeView
             // 
-            this.searchResultsTreeView.Location = new System.Drawing.Point(10, 105);
+            this.searchResultsTreeView.Location = new System.Drawing.Point(9, 3);
             this.searchResultsTreeView.Name = "searchResultsTreeView";
-            this.searchResultsTreeView.Size = new System.Drawing.Size(506, 205);
+            this.searchResultsTreeView.Size = new System.Drawing.Size(520, 389);
             this.searchResultsTreeView.TabIndex = 0;
             // 
             // metaResultPanel
@@ -122,60 +124,11 @@
             this.metaResultPanel.Controls.Add(this.totalFilesLabel);
             this.metaResultPanel.Controls.Add(this.currentFileLabel);
             this.metaResultPanel.Controls.Add(this.secondsPassedLabel);
-            this.metaResultPanel.Location = new System.Drawing.Point(10, 25);
+            this.metaResultPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.metaResultPanel.Location = new System.Drawing.Point(3, 22);
             this.metaResultPanel.Name = "metaResultPanel";
-            this.metaResultPanel.Size = new System.Drawing.Size(506, 74);
+            this.metaResultPanel.Size = new System.Drawing.Size(538, 74);
             this.metaResultPanel.TabIndex = 1;
-            // 
-            // secondsPassedLabel
-            // 
-            this.secondsPassedLabel.AutoSize = true;
-            this.secondsPassedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.secondsPassedLabel.Location = new System.Drawing.Point(4, 4);
-            this.secondsPassedLabel.Name = "secondsPassedLabel";
-            this.secondsPassedLabel.Size = new System.Drawing.Size(118, 17);
-            this.secondsPassedLabel.TabIndex = 0;
-            this.secondsPassedLabel.Text = "Seconds Passed:";
-            // 
-            // currentFileLabel
-            // 
-            this.currentFileLabel.AutoSize = true;
-            this.currentFileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.currentFileLabel.Location = new System.Drawing.Point(4, 41);
-            this.currentFileLabel.Name = "currentFileLabel";
-            this.currentFileLabel.Size = new System.Drawing.Size(85, 17);
-            this.currentFileLabel.TabIndex = 1;
-            this.currentFileLabel.Text = "Current File:";
-            // 
-            // totalFilesLabel
-            // 
-            this.totalFilesLabel.AutoSize = true;
-            this.totalFilesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.totalFilesLabel.Location = new System.Drawing.Point(4, 24);
-            this.totalFilesLabel.Name = "totalFilesLabel";
-            this.totalFilesLabel.Size = new System.Drawing.Size(150, 17);
-            this.totalFilesLabel.TabIndex = 2;
-            this.totalFilesLabel.Text = "Total files proccessed:";
-            // 
-            // totalFilesValueLabel
-            // 
-            this.totalFilesValueLabel.AutoSize = true;
-            this.totalFilesValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.totalFilesValueLabel.Location = new System.Drawing.Point(160, 24);
-            this.totalFilesValueLabel.Name = "totalFilesValueLabel";
-            this.totalFilesValueLabel.Size = new System.Drawing.Size(16, 17);
-            this.totalFilesValueLabel.TabIndex = 3;
-            this.totalFilesValueLabel.Text = "0";
-            // 
-            // secondsPassedValueLabel
-            // 
-            this.secondsPassedValueLabel.AutoSize = true;
-            this.secondsPassedValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.secondsPassedValueLabel.Location = new System.Drawing.Point(160, 4);
-            this.secondsPassedValueLabel.Name = "secondsPassedValueLabel";
-            this.secondsPassedValueLabel.Size = new System.Drawing.Size(16, 17);
-            this.secondsPassedValueLabel.TabIndex = 4;
-            this.secondsPassedValueLabel.Text = "0";
             // 
             // currentFileValueLabel
             // 
@@ -187,6 +140,56 @@
             this.currentFileValueLabel.TabIndex = 5;
             this.currentFileValueLabel.Text = "None";
             // 
+            // secondsPassedValueLabel
+            // 
+            this.secondsPassedValueLabel.AutoSize = true;
+            this.secondsPassedValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.secondsPassedValueLabel.Location = new System.Drawing.Point(160, 4);
+            this.secondsPassedValueLabel.Name = "secondsPassedValueLabel";
+            this.secondsPassedValueLabel.Size = new System.Drawing.Size(16, 17);
+            this.secondsPassedValueLabel.TabIndex = 4;
+            this.secondsPassedValueLabel.Text = "0";
+            // 
+            // totalFilesValueLabel
+            // 
+            this.totalFilesValueLabel.AutoSize = true;
+            this.totalFilesValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.totalFilesValueLabel.Location = new System.Drawing.Point(160, 24);
+            this.totalFilesValueLabel.Name = "totalFilesValueLabel";
+            this.totalFilesValueLabel.Size = new System.Drawing.Size(16, 17);
+            this.totalFilesValueLabel.TabIndex = 3;
+            this.totalFilesValueLabel.Text = "0";
+            // 
+            // totalFilesLabel
+            // 
+            this.totalFilesLabel.AutoSize = true;
+            this.totalFilesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.totalFilesLabel.Location = new System.Drawing.Point(4, 24);
+            this.totalFilesLabel.Name = "totalFilesLabel";
+            this.totalFilesLabel.Size = new System.Drawing.Size(150, 17);
+            this.totalFilesLabel.TabIndex = 2;
+            this.totalFilesLabel.Text = "Total files proccessed:";
+            // 
+            // currentFileLabel
+            // 
+            this.currentFileLabel.AutoSize = true;
+            this.currentFileLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.currentFileLabel.Location = new System.Drawing.Point(4, 41);
+            this.currentFileLabel.Name = "currentFileLabel";
+            this.currentFileLabel.Size = new System.Drawing.Size(85, 17);
+            this.currentFileLabel.TabIndex = 1;
+            this.currentFileLabel.Text = "Current File:";
+            // 
+            // secondsPassedLabel
+            // 
+            this.secondsPassedLabel.AutoSize = true;
+            this.secondsPassedLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.secondsPassedLabel.Location = new System.Drawing.Point(4, 4);
+            this.secondsPassedLabel.Name = "secondsPassedLabel";
+            this.secondsPassedLabel.Size = new System.Drawing.Size(118, 17);
+            this.secondsPassedLabel.TabIndex = 0;
+            this.secondsPassedLabel.Text = "Seconds Passed:";
+            // 
             // setupGroupBox
             // 
             this.setupGroupBox.Controls.Add(this.allowedSymbolsLabel);
@@ -195,22 +198,24 @@
             this.setupGroupBox.Controls.Add(this.fileNamePatternTextBox);
             this.setupGroupBox.Controls.Add(this.directoryPathLabel);
             this.setupGroupBox.Controls.Add(this.directoryTextbox);
+            this.setupGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.setupGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.setupGroupBox.Location = new System.Drawing.Point(16, 12);
+            this.setupGroupBox.Location = new System.Drawing.Point(0, 0);
             this.setupGroupBox.Name = "setupGroupBox";
-            this.setupGroupBox.Size = new System.Drawing.Size(525, 108);
+            this.setupGroupBox.Size = new System.Drawing.Size(544, 108);
             this.setupGroupBox.TabIndex = 2;
             this.setupGroupBox.TabStop = false;
             this.setupGroupBox.Text = "Setup";
             // 
             // resultsGroupBox
             // 
-            this.resultsGroupBox.Controls.Add(this.searchResultsTreeView);
+            this.resultsGroupBox.Controls.Add(this.treeResultPanel);
             this.resultsGroupBox.Controls.Add(this.metaResultPanel);
+            this.resultsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.resultsGroupBox.Location = new System.Drawing.Point(16, 126);
+            this.resultsGroupBox.Location = new System.Drawing.Point(0, 108);
             this.resultsGroupBox.Name = "resultsGroupBox";
-            this.resultsGroupBox.Size = new System.Drawing.Size(525, 320);
+            this.resultsGroupBox.Size = new System.Drawing.Size(544, 532);
             this.resultsGroupBox.TabIndex = 3;
             this.resultsGroupBox.TabStop = false;
             this.resultsGroupBox.Text = "Results";
@@ -219,20 +224,11 @@
             // 
             this.controlsPanel.Controls.Add(this.pauseButton);
             this.controlsPanel.Controls.Add(this.startButton);
-            this.controlsPanel.Location = new System.Drawing.Point(16, 453);
+            this.controlsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.controlsPanel.Location = new System.Drawing.Point(0, 608);
             this.controlsPanel.Name = "controlsPanel";
-            this.controlsPanel.Size = new System.Drawing.Size(525, 32);
+            this.controlsPanel.Size = new System.Drawing.Size(544, 32);
             this.controlsPanel.TabIndex = 4;
-            // 
-            // startButton
-            // 
-            this.startButton.Location = new System.Drawing.Point(4, 4);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(75, 23);
-            this.startButton.TabIndex = 0;
-            this.startButton.Text = "Start";
-            this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // pauseButton
             // 
@@ -244,11 +240,30 @@
             this.pauseButton.UseVisualStyleBackColor = true;
             this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
             // 
+            // startButton
+            // 
+            this.startButton.Location = new System.Drawing.Point(4, 4);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.TabIndex = 0;
+            this.startButton.Text = "Start";
+            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // treeResultPanel
+            // 
+            this.treeResultPanel.Controls.Add(this.searchResultsTreeView);
+            this.treeResultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeResultPanel.Location = new System.Drawing.Point(3, 96);
+            this.treeResultPanel.Name = "treeResultPanel";
+            this.treeResultPanel.Size = new System.Drawing.Size(538, 433);
+            this.treeResultPanel.TabIndex = 2;
+            // 
             // FileSearcherForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 492);
+            this.ClientSize = new System.Drawing.Size(544, 640);
             this.Controls.Add(this.controlsPanel);
             this.Controls.Add(this.resultsGroupBox);
             this.Controls.Add(this.setupGroupBox);
@@ -260,6 +275,7 @@
             this.setupGroupBox.PerformLayout();
             this.resultsGroupBox.ResumeLayout(false);
             this.controlsPanel.ResumeLayout(false);
+            this.treeResultPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -284,6 +300,7 @@
         private System.Windows.Forms.Panel controlsPanel;
         private System.Windows.Forms.Button pauseButton;
         private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.Panel treeResultPanel;
     }
 }
 
