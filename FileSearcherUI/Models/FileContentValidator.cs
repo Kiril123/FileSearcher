@@ -68,7 +68,7 @@ namespace FileSearcherUI.Models
         /// </summary>
         /// <param name="filePath">The path to the file.</param>
         /// <returns>True if the file contains only valid characters else false.</returns>
-        public bool ValidateContent(string filePath)
+        public bool Validate(string filePath)
         {
             try
             {

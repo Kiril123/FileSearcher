@@ -52,6 +52,7 @@
     <Compile Include="Models\FileSearcherModel.cs" />
     <Compile Include="Models\IFileContentValidator.cs" />
     <Compile Include="Models\IFileNameValidator.cs" />
+    <Compile Include="Models\IFileSearcherModel.cs" />
     <Compile Include="Utility\ConfigurationSaver.cs" />
     <Compile Include="Utility\IConfigurationSaver.cs" />
     <Compile Include="Views\FileSearcherForm.cs">
