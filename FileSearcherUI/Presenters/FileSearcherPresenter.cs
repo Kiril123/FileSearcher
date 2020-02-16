@@ -12,12 +12,14 @@ namespace FileSearcherUI.Presenters
     public class FileSearcherPresenter:IPresenter
     {
         private readonly IFileSearcherView view;
-        private readonly IConfigurationSaver configurationSaver;
+        private IConfigurationSaver configurationSaver;
+        private IFileSearcherModel fileSearcher;
 
-        public FileSearcherPresenter(IFileSearcherView view,IConfigurationSaver configurationSaver)
+        public FileSearcherPresenter(IFileSearcherView view,IConfigurationSaver configurationSaver,IFileSearcherModel fileSearcher)
         {
             this.view = view;
             this.configurationSaver = configurationSaver;
+            this.fileSearcher = fileSearcher;
             view.Start += () => Start(view.DirectoryPath, view.FileNamePattern, view.AllowedSymbols);
             view.Pause += () => Pause();
             ConfigurationModel savedConfig = configurationSaver?.Load();
@@ -37,6 +39,9 @@ namespace FileSearcherUI.Presenters
         private void Start(string directoryPath,string fileNamePattern,string allowedCharacters)
         {
             configurationSaver.Save(new ConfigurationModel(directoryPath, fileNamePattern, allowedCharacters));
+            fileSearcher.AllowedCharacters = new List<char>(allowedCharacters.ToCharArray());
+            fileSearcher.NamePattern = fileNamePattern;
+            fileSearcher.Search(directoryPath);
         }
 
         private void Pause()
