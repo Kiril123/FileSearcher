@@ -162,16 +162,16 @@ namespace FileSearcherUI.Presenters
             {
                 searchOperationToken = new PauseOrCancelTokenSource();
                 await Task.Run(() => fileSearcher.Search(directoryPath, searchProgress, searchOperationToken.Token));
+                view.CurrentFile = "None";
             }
             catch (OperationCanceledException)
             {
             }
             catch (ArgumentException)
             {
-
+                view.CurrentFile = "Directory not found.";
             }
             //Cleanup
-            view.CurrentFile = "None";
             view.StartButtonText = "Start";
             searchOperationRunning = false;
             timer.Stop();
