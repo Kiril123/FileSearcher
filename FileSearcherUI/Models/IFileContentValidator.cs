@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using FileSearcherUI.Utility;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FileSearcherUI.Models
 {
@@ -10,12 +12,19 @@ namespace FileSearcherUI.Models
         /// <summary>
         /// Allowed characters.
         /// </summary>
-        List<char> AllowedCharacters { get; set; }
+        HashSet<char> AllowedCharacters { get; set; }
         /// <summary>
         /// Checks if a file contains only valid characters.
         /// </summary>
         /// <param name="filePath">The path to the file.</param>
         /// <returns>True if the file contains only valid characters else false.</returns>
         bool Validate(string filePath);
+        /// <summary>
+        /// Checks if a file contains only valid characters.
+        /// With syncronizattion.
+        /// </summary>
+        /// <param name="filePath">The path to the file.</param>
+        /// <returns>True if the file contains only valid characters else false.</returns>
+        Task<bool> Validate(string filePath, PauseOrCancelToken syncToken);
     }
 }

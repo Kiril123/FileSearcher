@@ -74,7 +74,7 @@ namespace FileSearcherUI.Presenters
             counter = 0;
             view.FilesProccessed = counter.ToString();
             configurationSaver.Save(new ConfigurationModel(directoryPath, fileNamePattern, allowedCharacters));
-            fileSearcher.AllowedCharacters = new List<char>(allowedCharacters.ToCharArray());
+            fileSearcher.AllowedCharacters = new HashSet<char>(allowedCharacters.ToCharArray());
             fileSearcher.NamePattern = fileNamePattern;
             Progress<FileSearchProgressModel> searchProgress = new Progress<FileSearchProgressModel>();
             searchProgress.ProgressChanged += ReportSearchProgress;

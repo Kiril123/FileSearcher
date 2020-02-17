@@ -43,7 +43,7 @@ namespace FileSearcherUI.Models
         /// <summary>
         /// Allowed characters in content.
         /// </summary>
-        public List<char> AllowedCharacters
+        public HashSet<char> AllowedCharacters
         {
             get
             {
@@ -65,11 +65,22 @@ namespace FileSearcherUI.Models
             {
                 return false;
             }
-            if (!contentValidator.Validate(filePath))
+            return contentValidator.Validate(filePath);
+
+        }
+        /// <summary>
+        /// Checks if the file is valid.
+        /// With synchronization
+        /// </summary>
+        /// <param name="filePath">Path to the file.</param>
+        /// <returns>True if the file is valid, else false.</returns>
+        private async Task<bool> isValid(string filePath,PauseOrCancelToken syncToken)
+        {
+            if (!nameValidator.Validate(filePath))
             {
                 return false;
             }
-            return true;
+            return await contentValidator.Validate(filePath, syncToken) == false;
         }
 
         /// <summary>
@@ -112,7 +123,8 @@ namespace FileSearcherUI.Models
                     await syncToken.PauseOrCancel();
                     progress.Report(new FileSearchProgressModel(file,false,false));
                     await syncToken.PauseOrCancel();
-                    progress.Report(new FileSearchProgressModel(file, true,isValid(file)));
+                    bool valid = await isValid(file,syncToken);
+                    progress.Report(new FileSearchProgressModel(file, true,valid));
                 }
                 foreach (string subDirectory in subDirectories)
                 {

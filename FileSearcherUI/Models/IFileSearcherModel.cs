@@ -13,7 +13,7 @@ namespace FileSearcherUI.Models
         /// <summary>
         /// Allowed characters in content.
         /// </summary>
-        List<char> AllowedCharacters { get; set; }
+        HashSet<char> AllowedCharacters { get; set; }
         /// <summary>
         /// File name Pattern.
         /// </summary>

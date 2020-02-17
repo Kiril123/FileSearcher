@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileSearcherUI.Utility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,26 +13,26 @@ namespace FileSearcherUI.Models
     /// </summary>
     public class FileContentValidator : IFileContentValidator
     {
-        private List<char> allowedCharacters;
+        private HashSet<char> allowedCharacters;
         /// <summary>
         /// Constructor
         /// </summary>
         public FileContentValidator()
         {
-            this.allowedCharacters = new List<char>();
+            this.allowedCharacters = new HashSet<char>();
         }
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="allowedCharacters">List of allowed characters.</param>
-        public FileContentValidator(List<char> allowedCharacters)
+        public FileContentValidator(char[] allowedCharacters)
         {
-            this.allowedCharacters = allowedCharacters;
+            this.allowedCharacters = new HashSet<char>(allowedCharacters);
         }
         /// <summary>
         /// Allowed characters.
         /// </summary>
-        public List<char> AllowedCharacters
+        public HashSet<char> AllowedCharacters
         {
             get
             {
@@ -54,15 +55,9 @@ namespace FileSearcherUI.Models
             {
                 return true;
             }
-            foreach (char validChar in AllowedCharacters)
-            {
-                if (validChar == c)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return AllowedCharacters.Contains(c);
         }
+
         /// <summary>
         /// Checks if a file contains only valid characters.
         /// </summary>
@@ -74,11 +69,45 @@ namespace FileSearcherUI.Models
             {
                 using (StreamReader reader = new StreamReader(filePath))
                 {
+
                     while (reader.Peek() >= 0)
                     {
                         if (!isLegalCharacter((char)reader.Read()))
                         {
                             return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// Checks if a file contains only valid characters.
+        /// Checks synchronization every line read.
+        /// </summary>
+        /// <param name="filePath">The path to the file.</param>
+        /// <returns>True if the file contains only valid characters else false.</returns>
+        public async Task<bool> Validate(string filePath,PauseOrCancelToken syncToken)
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+
+                    while (reader.Peek() >= 0)
+                    {
+                        await syncToken.PauseOrCancel();
+                        string line = reader.ReadLine();
+                        foreach(char c in line)
+                        {
+                            if (!isLegalCharacter(c))
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
