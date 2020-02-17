@@ -101,15 +101,6 @@ namespace FileSearcherUI.Views
             }
         }
 
-        public bool StartButtonEnabled {
-            get{
-                return startButton.Enabled;
-            }
-            set{
-                startButton.Enabled = value;
-            }
-        }
-
         private void startButton_Click(object sender, EventArgs e)
         {
             Start();

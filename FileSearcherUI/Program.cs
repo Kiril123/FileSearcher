@@ -3,9 +3,6 @@ using FileSearcherUI.Presenters;
 using FileSearcherUI.Utility;
 using FileSearcherUI.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FileSearcherUI

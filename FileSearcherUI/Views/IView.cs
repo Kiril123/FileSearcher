@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FileSearcherUI.Views
+﻿namespace FileSearcherUI.Views
 {
+    /// <summary>
+    /// Generic view interface.
+    /// </summary>
     public interface IView
     {
+        /// <summary>
+        /// Show form.
+        /// </summary>
         void Show();
+        /// <summary>
+        /// Close form.
+        /// </summary>
         void Close();
     }
 }

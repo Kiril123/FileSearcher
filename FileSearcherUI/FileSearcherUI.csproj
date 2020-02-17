@@ -62,6 +62,7 @@
     <Compile Include="Utility\PauseToken.cs" />
     <Compile Include="Utility\PauseTokenSource.cs" />
     <Compile Include="Utility\TimeCalculator.cs" />
+    <Compile Include="Utility\XMLSaver.cs" />
     <Compile Include="Views\FileSearcherForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,37 +1,31 @@
 ﻿using FileSearcherUI.Models;
-using System;
-using System.IO;
-using System.Xml.Serialization;
 
 namespace FileSearcherUI.Utility
 {
-    public class ConfigurationSaver : IConfigurationSaver
+    /// <summary>
+    /// Saves configuration as xml file.
+    /// </summary>
+    public class ConfigurationSaver : XMLSaver<ConfigurationModel>, IConfigurationSaver
     {
+        /// <summary>
+        /// Default save location.
+        /// </summary>
         private static readonly string path = "Configuration.xml";
+        /// <summary>
+        /// Saves the model to an xml file.
+        /// </summary>
+        /// <param name="configuration">Model to save.</param>
         public void Save(ConfigurationModel configuration)
         {
-            XmlSerializer serializer = new XmlSerializer(configuration.GetType());
-            using (FileStream file = File.Create(path))
-            {
-                serializer.Serialize(file, configuration);
-            }
+            base.Save(configuration, path);
         }
-
+        /// <summary>
+        /// Loads the model from an xml file.
+        /// </summary>
+        /// <returns>Loaded model.</returns>
         public ConfigurationModel Load()
         {
-            XmlSerializer deserializer = new XmlSerializer(typeof(ConfigurationModel));
-            try
-            {
-                using (StreamReader file = new StreamReader(path))
-                {
-                    ConfigurationModel configuration = deserializer.Deserialize(file) as ConfigurationModel;
-                    return configuration;
-                }
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            return base.Load(path);
         }
     }
 }
