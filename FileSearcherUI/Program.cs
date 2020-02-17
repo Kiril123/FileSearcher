@@ -26,7 +26,8 @@ namespace FileSearcherUI
                 new FileSearcherModel(
                     new FileContentValidator(),
                     new FileNameValidator()
-                    )
+                    ),
+                new TimeCalculator()
                 );
             presenter.Run();
         }

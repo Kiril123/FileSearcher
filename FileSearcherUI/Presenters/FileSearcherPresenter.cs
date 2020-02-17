@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace FileSearcherUI.Presenters
@@ -17,15 +18,23 @@ namespace FileSearcherUI.Presenters
         private static readonly char pathSeparator='\\';
         private IConfigurationSaver configurationSaver;
         private IFileSearcherModel fileSearcher;
+        private ITimeCalculator timer;
         private PauseOrCancelTokenSource searchOperationToken;
         private int counter;
         private bool searchOperationRunning;
 
-        public FileSearcherPresenter(IFileSearcherView view,IConfigurationSaver configurationSaver,IFileSearcherModel fileSearcher)
+        private static int frequency = 100;
+        private static int countEvents = 10;
+
+        public FileSearcherPresenter(IFileSearcherView view,IConfigurationSaver configurationSaver,IFileSearcherModel fileSearcher,ITimeCalculator timer)
         {
             this.view = view;
             this.configurationSaver = configurationSaver;
             this.fileSearcher = fileSearcher;
+            this.timer = timer;
+            timer.TimerTickedEvent += Timer_TimerTickedEvent;
+            timer.TimeEvents = countEvents;
+            timer.TimeInterval = frequency;
             view.Start += () => Start(view.DirectoryPath, view.FileNamePattern, view.AllowedSymbols);
             view.Pause += () => Pause();
             ConfigurationModel savedConfig = configurationSaver?.Load();
@@ -36,6 +45,11 @@ namespace FileSearcherUI.Presenters
                 view.FileNamePattern = savedConfig.FileNamePattern;
             }
             searchOperationRunning = false;
+        }
+
+        private void Timer_TimerTickedEvent(object sender, int e)
+        {
+            view.SecondsPassed = e.ToString();
         }
 
         public void Run()
@@ -68,6 +82,7 @@ namespace FileSearcherUI.Presenters
                 }
             }
         }
+
         private async void startSearch(string directoryPath, string fileNamePattern, string allowedCharacters)
         {
             searchOperationRunning = true;
@@ -87,14 +102,16 @@ namespace FileSearcherUI.Presenters
             {
             }
             view.CurrentFile = "None";
+            view.StartButtonText = "Start";
+            timer.Stop();
         }
 
         private void cancelSearch()
         {
-                searchOperationToken.Cancel();
-                searchOperationRunning = false;
-                view.PauseButtonText = "Pause";
-                searchOperationToken.Dispose();
+            searchOperationToken.Cancel();
+            searchOperationRunning = false;
+            view.PauseButtonText = "Pause";
+            searchOperationToken.Dispose();
         }
 
         private void Start(string directoryPath,string fileNamePattern,string allowedCharacters)
@@ -102,12 +119,15 @@ namespace FileSearcherUI.Presenters
             if (!searchOperationRunning)
             {
                 view.StartButtonText = "Cancel";
+                view.SecondsPassed = "0";
+                timer.Start();
                 startSearch(directoryPath, fileNamePattern, allowedCharacters);
             }
             else
             {
                 view.StartButtonText = "Start";
                 cancelSearch();
+                timer.Stop();
             }
         }
 
@@ -137,18 +157,15 @@ namespace FileSearcherUI.Presenters
             if (!searchOperationToken.IsPaused())
             {
                 searchOperationToken.Pause();
+                timer.Pause();
                 view.PauseButtonText = "Resume";
             }
             else
             {
                 searchOperationToken.Unpause();
+                timer.Unpause();
                 view.PauseButtonText = "Pause";
             }
-        }
-
-        private void Cancel()
-        {
-
         }
     }
 }

@@ -58,7 +58,7 @@ namespace FileSearcherUI.Views
                 return secondsPassedValueLabel.Text;
             }
             set {
-                secondsPassedLabel.Text = value;
+                secondsPassedValueLabel.Text = value;
             }
         }
         public string CurrentFile {

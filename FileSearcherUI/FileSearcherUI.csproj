@@ -56,10 +56,12 @@
     <Compile Include="Models\IFileSearcherModel.cs" />
     <Compile Include="Utility\ConfigurationSaver.cs" />
     <Compile Include="Utility\IConfigurationSaver.cs" />
+    <Compile Include="Utility\ITimeCalculator.cs" />
     <Compile Include="Utility\PauseOrCancelToken.cs" />
     <Compile Include="Utility\PauseOrCancelTokenSource.cs" />
     <Compile Include="Utility\PauseToken.cs" />
     <Compile Include="Utility\PauseTokenSource.cs" />
+    <Compile Include="Utility\TimeCalculator.cs" />
     <Compile Include="Views\FileSearcherForm.cs">
       <SubType>Form</SubType>
     </Compile>
