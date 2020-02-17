@@ -21,15 +21,15 @@ namespace FileSearcherUI.Presenters
         /// <summary>
         /// Interface that saves and laod search configurations.
         /// </summary>
-        private IConfigurationSaver configurationSaver;
+        private readonly IConfigurationSaver configurationSaver;
         /// <summary>
         /// Buisness logic interface (model).
         /// </summary>
-        private IFileSearcherModel fileSearcher;
+        private readonly IFileSearcherModel fileSearcher;
         /// <summary>
         /// Timer interface.
         /// </summary>
-        private ITimeCalculator timer;
+        private readonly ITimeCalculator timer;
         //Check this. TO DO
         private static readonly char pathSeparator='\\';
         /// <summary>
@@ -48,11 +48,11 @@ namespace FileSearcherUI.Presenters
         /// <summary>
         /// Default timer frequency.
         /// </summary>
-        private static int frequency = 100;
+        private static readonly int frequency = 100;
         /// <summary>
         /// Default events before updating counter.
         /// </summary>
-        private static int countEvents = 10;
+        private static readonly int countEvents = 10;
         #endregion
         #region Constructor and intialization
         /// <summary>
@@ -71,16 +71,16 @@ namespace FileSearcherUI.Presenters
             this.timer = timer;
 
             //Event hookup and default value initialization.
-            initTimer();
+            InitTimer();
             view.Start += () => Start(view.DirectoryPath, view.FileNamePattern, view.AllowedSymbols);
             view.Pause += () => Pause();
-            initConfig();
+            InitConfig();
             searchOperationRunning = false;
         }
         /// <summary>
         /// Intializes timer with default values.
         /// </summary>
-        private void initTimer()
+        private void InitTimer()
         {
             timer.TimerTickedEvent += Timer_TimerTickedEvent;
             timer.TimeEvents = countEvents;
@@ -89,7 +89,7 @@ namespace FileSearcherUI.Presenters
         /// <summary>
         /// Load configuration.
         /// </summary>
-        private void initConfig()
+        private void InitConfig()
         {
             ConfigurationModel savedConfig = configurationSaver?.Load();
             if (savedConfig != null)
@@ -114,7 +114,7 @@ namespace FileSearcherUI.Presenters
         /// Updates tree view with found valid files.
         /// </summary>
         /// <param name="path">Absolute path to file.</param>
-        private void updateTreeView(string path)
+        private void UpdateTreeView(string path)
         {
             TreeNode lastNode = null;
             string subPathAggregation = "";
@@ -145,11 +145,12 @@ namespace FileSearcherUI.Presenters
         /// <param name="directoryPath">Path to directory.</param>
         /// <param name="fileNamePattern">Valid file name pattern.</param>
         /// <param name="allowedCharacters">Allowed characters in file.</param>
-        private async void startSearch(string directoryPath, string fileNamePattern, string allowedCharacters)
+        private async void StartSearch(string directoryPath, string fileNamePattern, string allowedCharacters)
         {
             //Initial setup.
             searchOperationRunning = true;
             counter = 0;
+            view.SearchResultsTreeView.Nodes.Clear();
             view.FilesProccessed = counter.ToString();
             configurationSaver.Save(new ConfigurationModel(directoryPath, fileNamePattern, allowedCharacters));
             fileSearcher.AllowedCharacters = new HashSet<char>(allowedCharacters.ToCharArray());
@@ -165,15 +166,20 @@ namespace FileSearcherUI.Presenters
             catch (OperationCanceledException)
             {
             }
+            catch (ArgumentException)
+            {
+
+            }
             //Cleanup
             view.CurrentFile = "None";
             view.StartButtonText = "Start";
+            searchOperationRunning = false;
             timer.Stop();
         }
         /// <summary>
         /// Cancel operation.
         /// </summary>
-        private void cancelSearch()
+        private void CancelSearch()
         {
             searchOperationToken.Cancel();
             searchOperationRunning = false;
@@ -206,12 +212,12 @@ namespace FileSearcherUI.Presenters
                 view.StartButtonText = "Cancel";
                 view.SecondsPassed = "0";
                 timer.Start();
-                startSearch(directoryPath, fileNamePattern, allowedCharacters);
+                StartSearch(directoryPath, fileNamePattern, allowedCharacters);
             }
             else
             {
                 view.StartButtonText = "Start";
-                cancelSearch();
+                CancelSearch();
                 timer.Stop();
             }
         }
@@ -232,7 +238,7 @@ namespace FileSearcherUI.Presenters
                 view.FilesProccessed = counter.ToString();
                 if (progress.IsValid)
                 {
-                    updateTreeView(progress.CurrentFile);
+                    UpdateTreeView(progress.CurrentFile);
                 }
             }
         }
@@ -241,7 +247,7 @@ namespace FileSearcherUI.Presenters
         /// </summary>
         private void Pause()
         {
-            if (searchOperationToken == null || searchOperationToken.IsDisposed())
+            if (searchOperationToken == null || searchOperationToken.IsDisposed()||!searchOperationRunning)
             {
                 return;
             }
@@ -250,12 +256,14 @@ namespace FileSearcherUI.Presenters
                 searchOperationToken.Pause();
                 timer.Pause();
                 view.PauseButtonText = "Resume";
+                searchOperationRunning = false;
             }
             else
             {
                 searchOperationToken.Unpause();
                 timer.Unpause();
                 view.PauseButtonText = "Pause";
+                searchOperationRunning = true;
             }
         }
         #endregion

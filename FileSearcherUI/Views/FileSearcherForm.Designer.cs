@@ -242,7 +242,7 @@
             this.pauseButton.TabIndex = 1;
             this.pauseButton.Text = "Pause";
             this.pauseButton.UseVisualStyleBackColor = true;
-            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
+            this.pauseButton.Click += new System.EventHandler(this.PauseButton_Click);
             // 
             // startButton
             // 
@@ -252,7 +252,7 @@
             this.startButton.TabIndex = 0;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            this.startButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // treeResultPanel
             // 

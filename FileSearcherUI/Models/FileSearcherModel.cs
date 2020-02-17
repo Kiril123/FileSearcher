@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace FileSearcherUI.Models
@@ -78,7 +77,7 @@ namespace FileSearcherUI.Models
             {
                 return false;
             }
-            return await contentValidator.Validate(filePath, syncToken) == false;
+            return await contentValidator.Validate(filePath, syncToken);
         }
 
         /// <summary>
@@ -117,7 +116,6 @@ namespace FileSearcherUI.Models
 
                 foreach (string file in files)
                 {
-                    Thread.Sleep(1000);
                     await syncToken.PauseOrCancel();
                     progress.Report(new FileSearchProgressModel(file,false,false));
                     await syncToken.PauseOrCancel();

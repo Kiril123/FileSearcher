@@ -101,12 +101,12 @@ namespace FileSearcherUI.Views
             }
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e)
         {
             Start();
         }
 
-        private void pauseButton_Click(object sender, EventArgs e)
+        private void PauseButton_Click(object sender, EventArgs e)
         {
             Pause();
         }

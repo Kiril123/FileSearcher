@@ -41,6 +41,7 @@ namespace FileSearcherUI.Models
         /// <returns>True if valid file name else false.</returns>
         public bool Validate(string fileName)
         {
+            if (fileName == null||fileName=="") { return false; }
             Regex rx = new Regex(NamePattern);
             return rx.IsMatch(fileName);
         }
