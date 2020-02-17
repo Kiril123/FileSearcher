@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,7 +17,9 @@ namespace FileSearcherUI.Presenters
         private static readonly char pathSeparator='\\';
         private IConfigurationSaver configurationSaver;
         private IFileSearcherModel fileSearcher;
+        private PauseOrCancelTokenSource searchOperationToken;
         private int counter;
+        private bool searchOperationRunning;
 
         public FileSearcherPresenter(IFileSearcherView view,IConfigurationSaver configurationSaver,IFileSearcherModel fileSearcher)
         {
@@ -32,6 +35,7 @@ namespace FileSearcherUI.Presenters
                 view.DirectoryPath = savedConfig.DirectoryPath;
                 view.FileNamePattern = savedConfig.FileNamePattern;
             }
+            searchOperationRunning = false;
         }
 
         public void Run()
@@ -64,9 +68,9 @@ namespace FileSearcherUI.Presenters
                 }
             }
         }
-
-        private async void Start(string directoryPath,string fileNamePattern,string allowedCharacters)
+        private async void startSearch(string directoryPath, string fileNamePattern, string allowedCharacters)
         {
+            searchOperationRunning = true;
             counter = 0;
             view.FilesProccessed = counter.ToString();
             configurationSaver.Save(new ConfigurationModel(directoryPath, fileNamePattern, allowedCharacters));
@@ -74,8 +78,37 @@ namespace FileSearcherUI.Presenters
             fileSearcher.NamePattern = fileNamePattern;
             Progress<FileSearchProgressModel> searchProgress = new Progress<FileSearchProgressModel>();
             searchProgress.ProgressChanged += ReportSearchProgress;
-            await Task.Run(()=>fileSearcher.Search(directoryPath,searchProgress));
+            try
+            {
+                searchOperationToken = new PauseOrCancelTokenSource();
+                await Task.Run(() => fileSearcher.Search(directoryPath, searchProgress, searchOperationToken.Token));
+            }
+            catch (OperationCanceledException)
+            {
+            }
             view.CurrentFile = "None";
+        }
+
+        private void cancelSearch()
+        {
+                searchOperationToken.Cancel();
+                searchOperationRunning = false;
+                view.PauseButtonText = "Pause";
+                searchOperationToken.Dispose();
+        }
+
+        private void Start(string directoryPath,string fileNamePattern,string allowedCharacters)
+        {
+            if (!searchOperationRunning)
+            {
+                view.StartButtonText = "Cancel";
+                startSearch(directoryPath, fileNamePattern, allowedCharacters);
+            }
+            else
+            {
+                view.StartButtonText = "Start";
+                cancelSearch();
+            }
         }
 
         private void ReportSearchProgress(object sender,FileSearchProgressModel progress)
@@ -97,8 +130,25 @@ namespace FileSearcherUI.Presenters
 
         private void Pause()
         {
-            throw new NotImplementedException();
+            if (searchOperationToken == null || searchOperationToken.IsDisposed())
+            {
+                return;
+            }
+            if (!searchOperationToken.IsPaused())
+            {
+                searchOperationToken.Pause();
+                view.PauseButtonText = "Resume";
+            }
+            else
+            {
+                searchOperationToken.Unpause();
+                view.PauseButtonText = "Pause";
+            }
         }
 
+        private void Cancel()
+        {
+
+        }
     }
 }

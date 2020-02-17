@@ -84,6 +84,32 @@ namespace FileSearcherUI.Views
             }
         }
 
+        public string StartButtonText {
+            get { 
+                return startButton.Text;
+            }
+            set{
+                startButton.Text = value;
+            }
+        }
+        public string PauseButtonText { 
+            get{
+                return pauseButton.Text;
+            }
+            set{
+                pauseButton.Text = value;
+            }
+        }
+
+        public bool StartButtonEnabled {
+            get{
+                return startButton.Enabled;
+            }
+            set{
+                startButton.Enabled = value;
+            }
+        }
+
         private void startButton_Click(object sender, EventArgs e)
         {
             Start();

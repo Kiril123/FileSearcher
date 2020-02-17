@@ -111,13 +111,15 @@
             // 
             // searchResultsTreeView
             // 
-            this.searchResultsTreeView.Location = new System.Drawing.Point(9, 3);
+            this.searchResultsTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.searchResultsTreeView.Location = new System.Drawing.Point(0, 0);
             this.searchResultsTreeView.Name = "searchResultsTreeView";
-            this.searchResultsTreeView.Size = new System.Drawing.Size(520, 389);
+            this.searchResultsTreeView.Size = new System.Drawing.Size(538, 435);
             this.searchResultsTreeView.TabIndex = 0;
             // 
             // metaResultPanel
             // 
+            this.metaResultPanel.AutoSize = true;
             this.metaResultPanel.Controls.Add(this.currentFileValueLabel);
             this.metaResultPanel.Controls.Add(this.secondsPassedValueLabel);
             this.metaResultPanel.Controls.Add(this.totalFilesValueLabel);
@@ -127,7 +129,7 @@
             this.metaResultPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.metaResultPanel.Location = new System.Drawing.Point(3, 22);
             this.metaResultPanel.Name = "metaResultPanel";
-            this.metaResultPanel.Size = new System.Drawing.Size(538, 74);
+            this.metaResultPanel.Size = new System.Drawing.Size(538, 58);
             this.metaResultPanel.TabIndex = 1;
             // 
             // currentFileValueLabel
@@ -192,6 +194,7 @@
             // 
             // setupGroupBox
             // 
+            this.setupGroupBox.AutoSize = true;
             this.setupGroupBox.Controls.Add(this.allowedSymbolsLabel);
             this.setupGroupBox.Controls.Add(this.filePatternLabel);
             this.setupGroupBox.Controls.Add(this.allowedSymbolsTextBox);
@@ -202,20 +205,21 @@
             this.setupGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.setupGroupBox.Location = new System.Drawing.Point(0, 0);
             this.setupGroupBox.Name = "setupGroupBox";
-            this.setupGroupBox.Size = new System.Drawing.Size(544, 108);
+            this.setupGroupBox.Size = new System.Drawing.Size(544, 122);
             this.setupGroupBox.TabIndex = 2;
             this.setupGroupBox.TabStop = false;
             this.setupGroupBox.Text = "Setup";
             // 
             // resultsGroupBox
             // 
+            this.resultsGroupBox.AutoSize = true;
             this.resultsGroupBox.Controls.Add(this.treeResultPanel);
             this.resultsGroupBox.Controls.Add(this.metaResultPanel);
             this.resultsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.resultsGroupBox.Location = new System.Drawing.Point(0, 108);
+            this.resultsGroupBox.Location = new System.Drawing.Point(0, 122);
             this.resultsGroupBox.Name = "resultsGroupBox";
-            this.resultsGroupBox.Size = new System.Drawing.Size(544, 532);
+            this.resultsGroupBox.Size = new System.Drawing.Size(544, 518);
             this.resultsGroupBox.TabIndex = 3;
             this.resultsGroupBox.TabStop = false;
             this.resultsGroupBox.Text = "Results";
@@ -252,17 +256,19 @@
             // 
             // treeResultPanel
             // 
+            this.treeResultPanel.AutoSize = true;
             this.treeResultPanel.Controls.Add(this.searchResultsTreeView);
             this.treeResultPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeResultPanel.Location = new System.Drawing.Point(3, 96);
+            this.treeResultPanel.Location = new System.Drawing.Point(3, 80);
             this.treeResultPanel.Name = "treeResultPanel";
-            this.treeResultPanel.Size = new System.Drawing.Size(538, 433);
+            this.treeResultPanel.Size = new System.Drawing.Size(538, 435);
             this.treeResultPanel.TabIndex = 2;
             // 
             // FileSearcherForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(544, 640);
             this.Controls.Add(this.controlsPanel);
             this.Controls.Add(this.resultsGroupBox);
@@ -274,9 +280,11 @@
             this.setupGroupBox.ResumeLayout(false);
             this.setupGroupBox.PerformLayout();
             this.resultsGroupBox.ResumeLayout(false);
+            this.resultsGroupBox.PerformLayout();
             this.controlsPanel.ResumeLayout(false);
             this.treeResultPanel.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

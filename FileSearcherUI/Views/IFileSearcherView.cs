@@ -16,6 +16,10 @@ namespace FileSearcherUI.Views
         string CurrentFile { get; set; }
         string FilesProccessed { get; set; }
         TreeView SearchResultsTreeView { get; }
+        string StartButtonText { get; set; }
+        string PauseButtonText { get; set; }
+
+        bool StartButtonEnabled { get; set; }
 
         event Action Start;
         event Action Pause;

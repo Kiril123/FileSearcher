@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FileSearcherUI.Utility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -75,8 +76,11 @@ namespace FileSearcherUI.Models
         /// Searches given directory for all valid files.
         /// </summary>
         /// <param name="root">Directory root.</param>
-        public void Search(string root,IProgress<FileSearchProgressModel> progress)
+        /// <param name="progress">Syncronization progress reporter.</param>
+        /// <param name="syncToken">Token to cancel or pause the operation.</param>
+        public async Task Search(string root,IProgress<FileSearchProgressModel> progress,PauseOrCancelToken syncToken)
         {
+            await syncToken.PauseOrCancel();
             if (!Directory.Exists(root))
             {
                 throw new ArgumentException($"{root} Doesn't exist.");
@@ -105,10 +109,10 @@ namespace FileSearcherUI.Models
                 foreach (string file in files)
                 {
                     Thread.Sleep(1000);
+                    await syncToken.PauseOrCancel();
                     progress.Report(new FileSearchProgressModel(file,false,false));
-                    progress.Report(new FileSearchProgressModel(file, true, isValid(file)));
-                    Thread.Sleep(1000);
-
+                    await syncToken.PauseOrCancel();
+                    progress.Report(new FileSearchProgressModel(file, true,isValid(file)));
                 }
                 foreach (string subDirectory in subDirectories)
                 {

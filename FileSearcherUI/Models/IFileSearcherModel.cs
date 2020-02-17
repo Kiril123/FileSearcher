@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FileSearcherUI.Utility;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FileSearcherUI.Models
 {
@@ -20,6 +22,8 @@ namespace FileSearcherUI.Models
         /// Searches given directory for all valid files.
         /// </summary>
         /// <param name="root">Directory root.</param>
-        void Search(string root, IProgress<FileSearchProgressModel> progress);
+        /// <param name="progress">Syncronization progress reporter.</param>
+        /// <param name="syncToken">Token to cancel or pause the operation.</param>
+        Task Search(string root, IProgress<FileSearchProgressModel> progress, PauseOrCancelToken syncToken);
     }
 }
